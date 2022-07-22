@@ -39,13 +39,12 @@ mean_hgt <- hgt[, .(mean = mean(z)), by = .(lon, lat, lev, time2) ] %>%
   .[order(time2)] %>%
   .[, mean := FilterWave(mean, seq(0, max_k)), by = .(lon, lat, lev)]
 
-saveRDS(mean_hgt, gl$mean_rds)
-
+data.table::fwrite(mean_hgt, gl$climatologia_file)
 
 
 # Calcular desvio estandard climatológico del SAM -------------------------
 
-campos <- readRDS(gl$sam_rds) %>%
+campos <- data.table::fread(gl$sam_file) %>%
   setkey(lev, lon, lat)
 
 
@@ -66,4 +65,4 @@ sams <- hgt[, rbind(data.table::as.data.table(metR::FitLm(anom, full, weights = 
 
 sd <- sams[, .(sd = sd(estimate)), by = .(lev, term)]
 
-saveRDS(sd, gl$sam_sd_rds)
+data.table::fwrite(sd, gl$sam_sd_file)

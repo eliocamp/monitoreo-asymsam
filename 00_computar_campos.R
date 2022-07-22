@@ -1,7 +1,7 @@
 library(data.table)
 library(magrittr)
 
-source(here::here("analysis/monitoreo/scritps/globals.R"))
+source(here::here("scritps/globals.R"))
 
 request <- list(
   product_type = "monthly_averaged_reanalysis",
@@ -42,5 +42,5 @@ eof[, full := -full]
 eof[, c("sym", "asym") := list(mean(full), metR::Anomaly(full)),
     by = .(lat, lev)]
 
-saveRDS(eof, gl$sam_rds)
+data.table::fwrite(eof, gl$sam_file)
 

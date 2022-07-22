@@ -1,8 +1,10 @@
 library(magrittr)
 
-clim <- readRDS(gl$mean_rds)
-sd <- readRDS(gl$sam_sd_rds)
-campos <- readRDS(gl$sam_rds) %>%
+source(here::here("scritps/globals.R"))
+
+clim <- data.table::fread(gl$climatologia_file)
+sd <- data.table::fread(gl$sam_sd_file)
+campos <- data.table::fread(gl$sam_file) %>%
   data.table::melt(id.vars = c("lon", "lat", "lev"))
 
 sam_file <- function(date) {

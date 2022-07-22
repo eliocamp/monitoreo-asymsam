@@ -27,6 +27,6 @@ gl$base_request <- list(
 
 
 
-gl$sam_rds <- here::here("analysis/monitoreo/datos/campos.Rds")
-gl$mean_rds <- here::here("analysis/monitoreo/datos/climatologia.Rds")
-gl$sam_sd_rds <- here::here("analysis/monitoreo/datos/sam_sd.Rds")
+gl$sam_file <- here::here("datos/campos.csv")
+gl$climatologia_file <- here::here("datos/climatologia.gz")
+gl$sam_sd_file <- here::here("datos/sam_sd.csv")
