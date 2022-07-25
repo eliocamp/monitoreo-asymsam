@@ -1,0 +1,40 @@
+---
+title: "Monitoreo SAM"
+output: 
+  html_document:
+    self_contained: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+source(here::here("scritps/globals.R"))
+source(here::here("scritps/helpers-graficos.R"))
+```
+
+
+# Series temporales (diarias)  {.tabset}
+
+## Últimos 12 meses
+
+```{r}
+knitr::include_graphics(gl$plots$sam_latest12)
+```
+
+## Últimos 6 meses
+
+```{r}
+knitr::include_graphics(gl$plots$sam_latest6)
+```
+
+
+## Últimos 3 meses
+
+```{r}
+knitr::include_graphics(gl$plots$sam_latest3)
+```
+
+# Campos
+
+```{r}
+knitr::include_graphics(gl$plots$sam_campos)
+```

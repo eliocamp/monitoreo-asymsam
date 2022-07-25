@@ -7,8 +7,8 @@ sd <- data.table::fread(gl$sam_sd_file)
 campos <- data.table::fread(gl$sam_file) %>%
   data.table::melt(id.vars = c("lon", "lat", "lev"))
 
-sam_file <- function(date) {
-  file.path(here::here("analysis/monitoreo/sam"),
+make_sam_file <- function(date) {
+  file.path(here::here("sam"),
             paste0(format(date, "%Y-%m-%d"), "_sam.csv"))
 }
 
@@ -59,8 +59,3 @@ computar_sam <- function(file) {
     .[]
 
 }
-
-
-
-
-

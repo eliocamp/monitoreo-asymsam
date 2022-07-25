@@ -2,6 +2,7 @@ library(data.table)
 library(magrittr)
 
 source(here::here("scritps/globals.R"))
+# source(here::here("scritps/login.R"))
 
 request <- list(
   product_type = "monthly_averaged_reanalysis",
@@ -18,7 +19,7 @@ request <- list(
   grid = gl$res
 )
 
-out <- ecmwfr::wf_request(request)
+out <- ecmwfr::wf_request(request, user = "11343")
 
 
 set.seed(4)
