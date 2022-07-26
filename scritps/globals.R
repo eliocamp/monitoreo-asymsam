@@ -1,8 +1,6 @@
-
-
 # Crea un environment llamado gl donde guardar variables globales
 # comunes a todo el sistema de monitoreo.
-gl <- environment()
+gl <- list()
 
 gl$climatology <- as.Date(c("1979-01-01", "2000-12-31"))
 gl$levels <- c(700, 50)
