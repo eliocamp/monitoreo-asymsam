@@ -1,7 +1,7 @@
 source(here::here("scritps/globals.R"))
 source(here::here("scritps/helpers.R"))
 
-today <- Sys.Date() - 5
+today <- Sys.Date()
 last_month <- lubridate::floor_date(today - lubridate::dmonths(1), "month")
 file_out <- make_sam_file(last_month)
 
