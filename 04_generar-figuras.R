@@ -18,11 +18,10 @@ lev.lab <- function(x) paste0(x, " hPa")
 
 if (!file.exists(gl$plots$sam_campos)) {
   sam_campos <- fread(gl$sam_file) %>%
-    .[, variable := factor_sam(variable)] %>%
     melt(id.vars = c("lev", "lon", "lat")) %>%
+    .[, variable := factor_sam(variable)] %>%
     periodic(lon = c(0, 360)) %>%
     ggplot(aes(lon, lat)) +
-    # geom_contour(aes(z = value, linetype = factor(-sign(..level..))), global.breaks = FALSE) +
     geom_contour_fill(aes(z = value), global.breaks = FALSE, breaks = ZeroBreaks) +
     geom_contour_tanaka2(aes(z = value), global.breaks = FALSE, breaks = ZeroBreaks) +
     geom_qmap() +
@@ -62,10 +61,12 @@ ggplot(sam, aes(as.Date(time), estimate)) +
   scale_y_continuous(NULL,breaks = scales::breaks_extended(10)) +
   scale_x_date(NULL, date_labels = "%b\n%d") +
   escala_signo +
-  facet_grid(lev ~ term, labeller = labeller(lev = lev.lab))
+  facet_grid(lev ~ term, labeller = labeller(lev = lev.lab),
+             scales = "free_y")
 
 ggsave(gl$plots$sam_latest12, units = "px", height = 400*3, width = 700*3,
        bg = "white")
+
 
 # Grafico los últimos 6 meses
 files <- rev(sort(list.files(here::here("sam"), full.names = TRUE)))
