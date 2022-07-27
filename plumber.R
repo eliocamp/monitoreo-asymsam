@@ -64,7 +64,7 @@ seasonally <- function (x)  {
 #* @serializer csv
 function(mindate, maxdate, timestep = "daily") {
   timesteps <- c("daily", "monthly", "seasonally")
-  if (!timestamp %in% timestamps) {
+  if (!timestep %in% timesteps) {
     stop("timestampt has to be one of 'daily', 'monthly' or 'seasonally'")
   }
 
