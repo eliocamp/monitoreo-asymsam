@@ -13,7 +13,7 @@ library(readr)  # se necesita para csv serialiser
 
 files <- rev(sort(list.files("sam", full.names = TRUE)))
 sam <- data.table::rbindlist(lapply(files, data.table::fread))
-
+sam[, time := as.Date(time)]
 
 season <- function (x, lang = c("en", "es")) {
   if (is.character(x))

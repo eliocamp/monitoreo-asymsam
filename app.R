@@ -1,7 +1,7 @@
 # app.R
 library(plumber)
 
-port <- Sys.getenv('PORT')
+port <- Sys.getenv('PORT', unset = 8000)
 
 server <- plumb("plumber.R")
 
