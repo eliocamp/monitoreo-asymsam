@@ -72,7 +72,7 @@ function(mindate, maxdate, timestep = "daily") {
         out <- out[, .(estimate = mean(estimate),
                        r.squared = mean(r.squared)),
                    by = .(lev, term, time = lubridate::floor_date(time, "month"))]
-    } else if (timestep == "seasonal") {
+    } else if (timestep == "seasonally") {
         out <- out[, .(estimate = mean(estimate),
                        r.squared = mean(r.squared)),
                    by = .(lev, term, time = seasonally(time))]
