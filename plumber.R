@@ -63,20 +63,26 @@ seasonally <- function (x)  {
 #* @get /getsam
 #* @serializer csv
 function(mindate, maxdate, timestep = "daily") {
-    mindate <- as.Date(mindate)
-    maxdate <- as.Date(maxdate)
+  timesteps <- c("daily", "monthly", "seasonally")
+  if (!timestamp %in% timestamps) {
+    stop("timestampt has to be one of 'daily', 'monthly' or 'seasonally'")
+  }
 
-    out <- sam[time >= mindate & time <= maxdate]
 
-    if (timestep == "monthly") {
-        out <- out[, .(estimate = mean(estimate),
-                       r.squared = mean(r.squared)),
-                   by = .(lev, term, time = lubridate::floor_date(time, "month"))]
-    } else if (timestep == "seasonally") {
-        out <- out[, .(estimate = mean(estimate),
-                       r.squared = mean(r.squared)),
-                   by = .(lev, term, time = seasonally(time))]
-    }
+  mindate <- as.Date(mindate)
+  maxdate <- as.Date(maxdate)
 
-    return(out)
+  out <- sam[time >= mindate & time <= maxdate]
+
+  if (timestep == "monthly") {
+    out <- out[, .(estimate = mean(estimate),
+                   r.squared = mean(r.squared)),
+               by = .(lev, term, time = lubridate::floor_date(time, "month"))]
+  } else if (timestep == "seasonally") {
+    out <- out[, .(estimate = mean(estimate),
+                   r.squared = mean(r.squared)),
+               by = .(lev, term, time = seasonally(time))]
+  }
+
+  return(out)
 }
