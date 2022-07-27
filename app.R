@@ -1,4 +1,11 @@
+# app.R
 library(plumber)
 
-port <- Sys.getenv("PORT")
-pr_run(pr("plumber.R"), port=8000)
+port <- Sys.getenv('PORT')
+
+server <- plumb("plumber.R")
+
+server$run(
+  host = '0.0.0.0',
+  port = as.numeric(port)
+)
