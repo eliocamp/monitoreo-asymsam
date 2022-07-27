@@ -8,6 +8,7 @@
 #
 
 library(plumber)
+library(readr)  # se necesita para csv serialiser
 
 files <- rev(sort(list.files("sam", full.names = TRUE)))
 sam <- data.table::rbindlist(lapply(files, data.table::fread))
