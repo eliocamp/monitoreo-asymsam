@@ -191,6 +191,14 @@ pre code {
 <h1>Campos</h1>
 <p><img src="plots/campos.png" /><!-- --></p>
 </div>
+<div id="datos" class="section level1">
+<h1>DATOS</h1>
+<form>
+<p><label for="mindate">Fecha de inicio:</label><br> <input type="text" id="mindate" name="mindate" value="1959-01-01"><br> <label for="maxdate">Fecha final</label><br> <input type="text" id="maxdate" name="maxdate" value="2022-06-30"></p>
+<p><label for="timestep">Timestep</label> <select name="timestep" id="timestep"> <option value="daily">Diario</option> <option value="monthly">Mensual</option> <option value="seasonally">Trimestral</option> </select></p>
+<input type="submit" formaction="https://frozen-journey-02456.herokuapp.com/getsam" value="Submit">
+</form>
+</div>
 
 
 
