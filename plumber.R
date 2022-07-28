@@ -16,9 +16,10 @@ sam <- data.table::rbindlist(lapply(files, data.table::fread))
 sam[, time := as.Date(time)]
 
 season <- function (x, lang = c("en", "es")) {
-  if (is.character(x))
-    x <- as.Date(x)
-  if (.is.somedate(x))
+  # No necesito esto porque sé que la entrada va a ser Dates
+  # if (is.character(x))
+  #   x <- as.Date(x)
+  # if (.is.somedate(x))
     x <- lubridate::month(x)
   if (lang[1] == "en") {
     djf <- "DJF"
