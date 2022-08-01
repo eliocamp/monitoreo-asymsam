@@ -27,8 +27,8 @@ gl$base_request <- list(
 
 gl$sam_file <- here::here("datos/campos.csv")
 gl$climatologia_file <- here::here("datos/climatologia.gz")
+gl$sam_norm_file <- here::here("datos/sam_norm.csv")
 gl$sam_sd_file <- here::here("datos/sam_sd.csv")
-
 
 gl$plots <- list(
   sam_campos  = here::here("plots/campos.png"),

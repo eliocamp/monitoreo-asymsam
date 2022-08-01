@@ -59,3 +59,4 @@ rsconnect/
 # End of https://www.toptal.com/developers/gitignore/api/r
 
 plots/
+datos/era5-hgt-daily-clim.nc

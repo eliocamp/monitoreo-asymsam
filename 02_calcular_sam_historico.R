@@ -1,15 +1,15 @@
 
-source(here::here("analysis/monitoreo/scritps/globals.R"))
-source(here::here("analysis/monitoreo/scritps/helpers.R"))
+source(here::here("scritps/globals.R"))
+source(here::here("scritps/helpers.R"))
+keyring::keyring_unlock(keyring = "ecmwfr", password = Sys.getenv("KEYPASS"))
 
 
 dates <- seq(as.Date("1959-01-01"), as.Date("2022-06-1"), "1 month")
 
-# Se puede reemplazar por furrr::future_map_chr para
-# acelerar.
-# future::plan("multicore", workers = 10)
-sams <- vapply(dates, function(date) {
-  file_out <- file.path(here::here("analysis/monitoreo/sam"),
+
+future::plan("multicore", workers = 10)
+sams <- furrr::future_map_chr(dates, function(date) {
+  file_out <- file.path(here::here("sam"),
                         paste0(format(date, "%Y-%m-%d"), "_sam.csv"))
 
   if (!file.exists(file_out)) {
@@ -18,13 +18,13 @@ sams <- vapply(dates, function(date) {
     request$month <- lubridate::month(date)
     request$day <- seq_len(lubridate::days_in_month(date))
 
-    out <- ecmwfr::wf_request(request)
+    out <- ecmwfr::wf_request(request, user = Sys.getenv("CDSUSER"))
     sam <- computar_sam(out)
 
     data.table::fwrite(sam, file_out)
   }
 
   file_out
-}, character(1))
+})
 
 

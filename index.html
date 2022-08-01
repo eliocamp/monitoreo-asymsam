@@ -196,6 +196,18 @@ pre code {
 <form>
 <p><label for="mindate">Fecha de inicio:</label><br> <input type="text" id="mindate" name="mindate" value="1959-01-01"><br> <label for="maxdate">Fecha final</label><br> <input type="text" id="maxdate" name="maxdate" value="2022-06-30"></p>
 <p><label for="timestep">Timestep</label> <select name="timestep" id="timestep"> <option value="daily">Diario</option> <option value="monthly">Mensual</option> <option value="seasonally">Trimestral</option> </select></p>
+<p><input type="checkbox" id="SAM" name="SAM" value="full"> <label for="SAM">SAM</label><br> <input type="checkbox" id="SSAM" name="SSAM" value="sym"> <label for="SSAM">S-SAM</label><br> <input type="checkbox" id="ASAM" name="ASAM" value="asym"> <label for="ASAM">A-SAM</label><br></p>
+<!-- <label for="indices">Indices</label> -->
+<!-- <select name="indices" size=3 multiple> -->
+<!--   <option value='sam' selected>SAM</option> -->
+<!--   <option value='s-sam' selected>S-SAM</option> -->
+<!--   <option value='a-sam' selected>A-SAM</option> -->
+<!-- </select> -->
+<!-- <label for="levels">Levels</label> -->
+<!-- <select name="levels" size=2 multiple> -->
+<!--   <option value='50' selected>50 hPa</option> -->
+<!--   <option value='700' selected>700 hPa</option> -->
+<!-- </select> -->
 <input type="submit" formaction="https://frozen-journey-02456.herokuapp.com/getsam" value="Submit">
 </form>
 </div>

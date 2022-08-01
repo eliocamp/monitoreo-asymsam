@@ -4,12 +4,12 @@ library(magrittr)
 library(data.table)
 
 
-source(here::here("analysis/monitoreo/scritps/globals.R"))
+source(here::here("scritps/globals.R"))
 
 # Descargar los datos -----------------------------------------------------
 
 dates <- seq(as.Date(gl$climatology[1]), as.Date(gl$climatology[2]), "1 day")
-path <- here::here("analysis/monitoreo/datos")
+path <- here::here("datos")
 
 request <- gl$base_request
 
@@ -20,7 +20,8 @@ request$target <- "era5-hgt-daily-clim.nc"
 
 era5_file <- file.path(path, request$target)
 if (!file.exists(era5_file)) {
-  out <- ecmwfr::wf_request(request, path = path, time_out = 3600*5)
+  out <- ecmwfr::wf_request(request, user = Sys.getenv("CDSUSER"),
+                            path = path, time_out = 3600*5)
 }
 
 # Calcular climatologia diaria --------------------------------------------
@@ -31,7 +32,7 @@ strip_year <- function(time) {
 }
 
 hgt <- metR::ReadNetCDF(file.path(path, request$target)) %>%
-  normalise_coords()
+  setnames(c("level", "latitude", "longitude"), c("lev", "lat", "lon"))
 
 max_k <- 4  # Hay que revisar esto. ¿Determinar el óptimo por crossvalidation?
 hgt[, time2 := strip_year(time[1]), by = time]
@@ -47,7 +48,6 @@ data.table::fwrite(mean_hgt, gl$climatologia_file)
 campos <- data.table::fread(gl$sam_file) %>%
   setkey(lev, lon, lat)
 
-
 hgt <- mean_hgt[hgt, on = .NATURAL] %>%
   .[, `:=`(anom = z - mean,
            z = NULL,
@@ -62,7 +62,20 @@ sams <- hgt[, rbind(data.table::as.data.table(metR::FitLm(anom, full, weights = 
     by = .(time, lev)] %>%
   .[term != "(Intercept)"]
 
+# Full se normaliza por su desvio
+sd <- sams[term == "full", .(norm = sd(estimate)), by = .(term, lev)]
 
-sd <- sams[, .(sd = sd(estimate)), by = .(lev, term)]
 
-data.table::fwrite(sd, gl$sam_sd_file)
+# Asym y sym se normalizan para que full = asym + sym
+norm <- sams %>%
+  dcast(time + lev ~ term, value.var = "estimate") %>%
+  .[, full := full/sd(full), by = lev] %>%
+  .[, FitLm(full, asym, sym), by = lev] %>%
+  .[term != "(Intercept)"] %>%
+  setnames("estimate", "norm") %>%
+  .[, norm := 1/norm]
+
+norm <- rbind(sd, norm, use.names = TRUE)
+
+
+data.table::fwrite(norm, gl$sam_norm_file)

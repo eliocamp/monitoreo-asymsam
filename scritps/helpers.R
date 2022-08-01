@@ -3,9 +3,10 @@ library(magrittr)
 source(here::here("scritps/globals.R"))
 
 clim <- data.table::fread(gl$climatologia_file)
-sd <- data.table::fread(gl$sam_sd_file)
+norm <- data.table::fread(gl$sam_norm_file)
 campos <- data.table::fread(gl$sam_file) %>%
   data.table::melt(id.vars = c("lon", "lat", "lev"))
+
 
 make_sam_file <- function(date) {
   file.path(here::here("sam"),
@@ -53,9 +54,9 @@ computar_sam <- function(file) {
     .[term != "(Intercept)"] %>%
     .[, term := NULL] %>%
     data.table::setnames("variable", "term") %>%
-    sd[., on = c("lev", "term")] %>%
-    .[, estimate := estimate/sd] %>%
-    .[, sd := NULL] %>%
+    norm[., on = c("lev", "term")] %>%
+    .[, estimate := estimate/norm] %>%
+    .[, norm := NULL] %>%
     .[]
 
 }
