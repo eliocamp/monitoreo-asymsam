@@ -61,19 +61,28 @@ seasonally <- function (x)  {
 #* @param mindate First date
 #* @param maxdate Last date
 #* @param timestep optional processsing
+#* @param term Which sam
+#* @param level which level
 #* @get /getsam
 #* @serializer csv
-function(mindate, maxdate, timestep = "daily") {
+function(mindate, maxdate, timestep = "daily", term = c("full", "sym", "asym"),
+         level = c(50, 700)) {
   timesteps <- c("daily", "monthly", "seasonally")
   if (!timestep %in% timesteps) {
     stop("timestampt has to be one of 'daily', 'monthly' or 'seasonally'")
   }
 
+  sams <- c("full", "sym", "asym")
+  if (any(!term %in% sams)) {
+    stop("term has to be one of 'full', 'sym' or 'asym'")
+  }
+  terms <- term
 
   mindate <- as.Date(mindate)
   maxdate <- as.Date(maxdate)
 
-  out <- sam[time >= mindate & time <= maxdate]
+  out <- sam[time >= mindate & time <= maxdate][term %in% terms][lev %in% level]
+
 
   if (timestep == "monthly") {
     out <- out[, .(estimate = mean(estimate),
