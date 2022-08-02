@@ -57,13 +57,6 @@ knitr::include_graphics(gl$plots$sam_campos)
     <option value="seasonally">Trimestral</option>
   </select>
   
-  <input type="checkbox" id="SAM" name="term" value="full" checked>
-  <label for="SAM">SAM</label><br>
-  <input type="checkbox" id="SSAM" name="term" value="sym" checked>
-  <label for="SSAM">S-SAM</label><br>
-  <input type="checkbox" id="ASAM" name="term" value="asym" checked>
-  <label for="ASAM">A-SAM</label><br>
-  
   <fieldset>      
     <legend>SAM Index</legend>    
     <input type="checkbox" id="SAM" name="term" value="full" checked>
