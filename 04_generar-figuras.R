@@ -55,7 +55,7 @@ files <- files[seq_len(n)]
 
 sam <- rbindlist(lapply(files, fread))[, term := factor_sam(term)]
 
-ggplot(sam, aes(as.Date(time), estimate)) +
+g <- ggplot(sam, aes(as.Date(time), estimate)) +
   geom_braid(aes(ymin = estimate, ymax = 0, fill = estimate > 0)) +
   geom_line(size = 0.2) +
   scale_y_continuous(NULL,breaks = scales::breaks_extended(10)) +
@@ -64,7 +64,7 @@ ggplot(sam, aes(as.Date(time), estimate)) +
   facet_grid(lev ~ term, labeller = labeller(lev = lev.lab),
              scales = "free_y")
 
-ggsave(gl$plots$sam_latest12, units = "px", height = 400*3, width = 700*3,
+ggsave(gl$plots$sam_latest12, g, units = "px", height = 400*3, width = 700*3,
        bg = "white")
 
 
@@ -76,7 +76,7 @@ files <- files[seq_len(n)]
 sam <- rbindlist(lapply(files, fread)) %>%
   .[, term := factor_sam(term)]
 
-ggplot(sam, aes(as.Date(time), estimate)) +
+g <- ggplot(sam, aes(as.Date(time), estimate)) +
   geom_braid(aes(ymin = estimate, ymax = 0, fill = estimate > 0)) +
   geom_line(size = 0.2) +
   scale_y_continuous(NULL,breaks = scales::breaks_extended(10)) +
@@ -84,7 +84,7 @@ ggplot(sam, aes(as.Date(time), estimate)) +
   scale_x_date(NULL, date_labels = "%b\n%d", date_breaks = "1 month") +
   facet_grid(lev ~ term, labeller = labeller(lev = lev.lab))
 
-ggsave(gl$plots$sam_latest6, units = "px", height = 400*3, width = 700*3,
+ggsave(gl$plots$sam_latest6, g, units = "px", height = 400*3, width = 700*3,
        bg = "white")
 
 
@@ -96,7 +96,7 @@ files <- files[seq_len(n)]
 sam <- rbindlist(lapply(files, fread)) %>%
   .[, term := factor_sam(term)]
 
-ggplot(sam, aes(as.Date(time), estimate)) +
+g <- ggplot(sam, aes(as.Date(time), estimate)) +
   geom_braid(aes(ymin = estimate, ymax = 0, fill = estimate > 0)) +
   geom_line(size = 0.2) +
   scale_y_continuous(NULL,breaks = scales::breaks_extended(10)) +
@@ -104,5 +104,5 @@ ggplot(sam, aes(as.Date(time), estimate)) +
   scale_x_date(NULL, date_labels = "%b\n%d", date_breaks = "15 days") +
   facet_grid(lev ~ term, labeller = labeller(lev = lev.lab))
 
-ggsave(gl$plots$sam_latest3, units = "px", height = 400*3, width = 700*3,
+ggsave(gl$plots$sam_latest3, g, units = "px", height = 400*3, width = 700*3,
        bg = "white")
